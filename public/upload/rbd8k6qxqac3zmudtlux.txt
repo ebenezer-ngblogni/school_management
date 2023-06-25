@@ -1,0 +1,1 @@
+http://10.16.101.25:8002/index.php?zone=rber_imsp&redirurl=http%3A%2F%2Fdetectportal.firefox.com%2Fcanonical.html
