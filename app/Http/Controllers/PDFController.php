@@ -67,19 +67,19 @@ class PDFController extends Controller
 
     }
 
- /*    public function delete($id){
+  public function delete($id){
 
-        $user = User::getSingle($id);
+        $file = PDFModel::getSingle($id);
         // Check if the user exists
-        if ($user) {
+        if ($file) {
             // Delete the user
-            $user->delete();
+            $file->delete();
 
             // Optionally, you can redirect or return a response
-            return redirect('admin/admin/list')->with('success', 'User deleted successfully.');
+            return redirect('teacher/addFile')->with('success', 'File deleted successfully.');
         }
 
-        return redirect('admin/admin/list')->with('error', 'User not found.');
+        return redirect('teacher/addFile')->with('error', 'File not found.');
     }
- */
+    
 }

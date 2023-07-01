@@ -84,6 +84,10 @@
                                   </span>Download</button>
                               </td>
 
+                              <td>
+                                <a href="{{ url('teacher/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>
+                              </td>
+
                           </tr>
                       @endforeach
                 </tbody>
@@ -100,4 +104,5 @@
   </div>
 
 @endsection
+
 

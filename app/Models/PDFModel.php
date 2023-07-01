@@ -10,6 +10,11 @@ class PDFModel extends Model
     use HasFactory;
 
     protected $table = 'files';
+    
+    static public function getSingle($id)
+    {
+        return self::find($id);
+    }
 
     static public function getTeacherFile($teacher_id)
     {

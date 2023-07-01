@@ -132,6 +132,8 @@ Route::group(['middleware' => 'teacher'], function (){
 
     Route::get('teacher/addFile', [PDFController::class, 'addFile']);
     Route::post('teacher/addFile', [PDFController::class, 'insert']);
+    Route::get('teacher/delete/{id}', [PDFController::class, 'delete']);
+
 
 
 
