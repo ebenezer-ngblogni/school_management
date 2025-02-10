@@ -1,96 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ url('plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{ url('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ url('dist/css/adminlte.min.css') }}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>Connexion</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <!-- FontAwesome & Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url('css/styles.css') }}" />
 </head>
 
-<style>
-    .ma-div {
-        background-color: #f2f2f2;
-        background-image: url('1.jpg');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-    }
-</style>
-
-<body class="hold-transition login-page ma-div">
-<div class="login-box">
-  <!-- /.login-logo -->
-  <div class="card card-outline card-primary">
-    <div class="card-header text-center">
-      <a href="" class="h1"><b>Login</b></a>
+<body>
+    
+     <!-- Loading Overlay -->
+     <div class="loading-overlay">
+        <div class="loading-spinner"></div>
     </div>
-    <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
 
-      @include('_message')
-
-      <form action="{{ url('login') }}" method="post">
-        {{ csrf_field() }}
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" required name="email" placeholder="Email">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
+    <div class="container">
+        <div class="login-section">
+            <h2>Bienvenue !</h2>
+            <h1>Connexion</h1>
+            @include('_message')
+            <form class="login-form" action="{{ url('login') }}" method="post">
+                {{ csrf_field() }}
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="exemple@gmail.com" required
+                    class="form-control" />
+                <label for="password">Mot de passe</label>
+                <div class="password-container d-flex align-items-center">
+                    <input type="password" id="password" name="password" placeholder="Votre mot de passe" required
+                        class="form-control" />
+                    <span class="toggle-password ms-2" style="cursor: pointer">
+                        <i class="fa-solid fa-eye"></i>
+                    </span>
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Se souvenir de moi</label>
+                </div>
+                <a href="{{ url('forgot-password') }}" class="forgot-password">Mot de passe oublié ?</a>
+                <button type="submit" class="bttn login-btn">Se connecter</button>
+            </form>
+            <p class="divider">ou</p>
+            <button type="button" class="bttn demo-btn" data-bs-toggle="modal" data-bs-target="#demoAccountModal">
+                Utiliser un compte démo
+            </button>
         </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" required name="password" placeholder="Password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
+        <div class="image-section">
+            <img class="img-school-girl" src="{{ url('assets/girl.png') }}" alt="Illustration" />
         </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember" name="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-
-      <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <a href="{{ url('forgot-password') }}">I forgot my password</a>
-      </p>
-
     </div>
-    <!-- /.card-body -->
-  </div>
-  <!-- /.card -->
-</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
-<script src="{{ url('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url('dist/js/adminlte.min.js') }}"></script>
+    @include('modals.demo_account')
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url('js/script.js') }}"></script>
+    <script src="{{ url('js/demo-account.js') }}"></script>
 </body>
+
 </html>

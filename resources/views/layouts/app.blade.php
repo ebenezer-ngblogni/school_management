@@ -97,7 +97,7 @@
                 },
                 dataType:"json",
                 success:function(response){
-                    console.log(response.html)
+                    // console.log(response.html)
                     $('.getSubject').html(response.html);
                 },
             });

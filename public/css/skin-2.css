@@ -294,9 +294,9 @@ span#counter {
   background-color: #6673fd !important; }
 .text-primary {
   color: #6673fd !important; }
-.btn-primary:hover {
+/* .btn-primary:hover {
   background-color: #1a2efc;
-  border-color: #1a2efc; }
+  border-color: #1a2efc; } */
 .btn-outline-primary {
   color: #6673fd;
   border-color: #6673fd; }
