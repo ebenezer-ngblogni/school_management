@@ -79,10 +79,20 @@ class ClassTimetableController extends Controller
 
     public function insert_update(Request $request)
     {
-        ClassSubjectTimetableModel::where('class_id', '=', $request->class_id)->where('subject_id', '=', $request->subject_id)->delete();
+        // Suppression des anciens emplois du temps pour cette classe et matière
+        ClassSubjectTimetableModel::where('class_id', '=', $request->class_id)
+            ->where('subject_id', '=', $request->subject_id)
+            ->delete();
 
         foreach ($request->timetable as $timetable) {
-            if(!empty($timetable['week_id']) && !empty($timetable['start_time']) && !empty($timetable['end_time']) && !empty($timetable['room_number'])){
+            if (!empty($timetable['week_id']) && !empty($timetable['start_time']) && !empty($timetable['end_time']) && !empty($timetable['room_number'])) {
+                
+                // Vérification que l'heure de début est inférieure à l'heure de fin
+                if (strtotime($timetable['start_time']) >= strtotime($timetable['end_time'])) {
+                    return redirect()->back()->with('error', "L'heure de début doit être inférieure à l'heure de fin pour le jour sélectionné.");
+                }
+
+                // Enregistrement de l'emploi du temps
                 $save = new ClassSubjectTimetableModel;
                 $save->class_id = $request->class_id;
                 $save->subject_id = $request->subject_id;
@@ -91,53 +101,59 @@ class ClassTimetableController extends Controller
                 $save->end_time = $timetable['end_time'];
                 $save->room_number = $timetable['room_number'];
                 $save->save();
-
             }
         }
+        
         return redirect()->back()->with('success', "Programmation ajoutée");
     }
 
     ///student
 
     public function myTimetable()
-    {
-        $result = array();
-
-        $getRecord = FiliereMatiereModel::mySubject(Auth::user()->filiere_id);
-
-        foreach ($getRecord as $value) {
-            $dataS['name'] = $value->matiere_name;
-
-            $getWeek = WeekModel::getRecord();
-            $week = array();
-            foreach ($getWeek as $valueW) {
-                $dataW = array();
-                $dataW['week_name'] = $valueW->name;
-
-                $ClassSubject = ClassSubjectTimetableModel::getRecordClassSubject($value->filiere_id, $value->matiere_id, $valueW->id);
-
-                if(!empty($ClassSubject)){
-                    $dataW['start_time'] = $ClassSubject->start_time;
-                    $dataW['end_time'] = $ClassSubject->end_time;
-                    $dataW['room_number'] = $ClassSubject->room_number;
-                }else{
-                    $dataW['start_time'] = '';
-                    $dataW['end_time'] = '';
-                    $dataW['room_number'] = '';
+{
+    $result = array();
+    $getRecord = FiliereMatiereModel::mySubject(Auth::user()->filiere_id);
+    
+    foreach ($getRecord as $value) {
+        $dataS['name'] = $value->matiere_name;
+        $getWeek = WeekModel::getRecord();
+        $week = array();
+        $hasTimeSlots = false;
+        
+        foreach ($getWeek as $valueW) {
+            $dataW = array();
+            $dataW['week_name'] = $valueW->name;
+            $ClassSubject = ClassSubjectTimetableModel::getRecordClassSubject(
+                $value->filiere_id, 
+                $value->matiere_id, 
+                $valueW->id
+            );
+            
+            if(!empty($ClassSubject)) {
+                $dataW['start_time'] = $ClassSubject->start_time;
+                $dataW['end_time'] = $ClassSubject->end_time;
+                $dataW['room_number'] = $ClassSubject->room_number;
+                if(!empty($ClassSubject->start_time) || !empty($ClassSubject->end_time) || !empty($ClassSubject->room_number)) {
+                    $hasTimeSlots = true;
                 }
-
-                $week[] = $dataW;
+            } else {
+                $dataW['start_time'] = '';
+                $dataW['end_time'] = '';
+                $dataW['room_number'] = '';
             }
-
+            $week[] = $dataW;
+        }
+        
+        if($hasTimeSlots) {
             $dataS['week'] = $week;
             $result[] = $dataS;
         }
-
-        $data['getRecord'] = $result;
-
-        $data['header_title'] = "My Timetable";
-        return view('student.my_timetable', $data); //edited
     }
+    
+    $data['getRecord'] = $result;
+    $data['header_title'] = "Mon emploi du temps";
+    return view('student.my_timetable', $data);
+}
 
     //Teacher
     public function teacherTimetable()

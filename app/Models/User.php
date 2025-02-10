@@ -51,6 +51,7 @@ class User extends Authenticatable
 
     static public function getAdmin(){
         $return = self::select('users.*')
+                        ->where('is_demo', '=', 0)
                         ->where('user_type', '=', 1);
                         if(!empty(Request::get('name'))){
                             $return = $return->where('name','like', '%'.Request::get('name').'%');
@@ -68,7 +69,8 @@ class User extends Authenticatable
 
     static public function getStudent(){
         $return = self::select('users.*', 'filiere.name as filiere_name')
-                    ->join('filiere', 'filiere.id', '=', 'users.filiere_id')
+                    ->leftJoin('filiere', 'filiere.id', '=', 'users.filiere_id')
+                    ->where('is_demo', '=', 0)
                     ->where('user_type', '=', 3);
                     if(!empty(Request::get('name'))){
                         $return = $return->where('name','like', '%'.Request::get('name').'%');
@@ -99,6 +101,7 @@ class User extends Authenticatable
 
     static public function getTeacher(){
         $return = self::select('users.*')
+                        ->where('is_demo', '=', 0)
                         ->where('user_type', '=', 2);
         $return = $return->orderBy('users.id', 'desc')
                          ->paginate(3);

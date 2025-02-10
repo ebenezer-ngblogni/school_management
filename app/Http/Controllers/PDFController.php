@@ -27,13 +27,13 @@ class PDFController extends Controller
         $temp = array();
 
         foreach ($dat as $value) {
-            $temp[] = PDFModel::getFromSubject($value->matiere_id);
+            $documents = PDFModel::getFromSubject($value->matiere_id);
+            if($documents->count() > 0) {
+                $temp[] = $documents;
+            }        
         }
 
         $data['getStart'] = $temp;
-        // dd($data['getStart']);
-
-
         $data['header_title'] = "Getdocument";
         return view('student.readFile', $data);
     }
