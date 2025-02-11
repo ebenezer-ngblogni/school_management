@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call(DemoAccountsSeeder::class);
         $this->call(DemoUsersSeeder::class);
         $this->call(WeekSeeder::class);
 
