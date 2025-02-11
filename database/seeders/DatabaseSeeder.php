@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(DemoAccountsSeeder::class);
         $this->call(DemoUsersSeeder::class);
-        $this->call(WeekSeeder::class);
+        // $this->call(WeekSeeder::class);
 
     }
 }
