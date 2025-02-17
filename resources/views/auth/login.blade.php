@@ -30,7 +30,7 @@
             <form class="login-form" action="{{ url('login') }}" method="post">
                 {{ csrf_field() }}
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="exemple@gmail.com" required
+                <input type="email" id="email" name="email" placeholder="Votre adresse mail" required
                     class="form-control" />
                 <label for="password">Mot de passe</label>
                 <div class="password-container d-flex align-items-center">

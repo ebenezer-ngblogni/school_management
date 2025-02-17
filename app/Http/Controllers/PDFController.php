@@ -34,7 +34,7 @@ class PDFController extends Controller
         }
 
         $data['getStart'] = $temp;
-        $data['header_title'] = "Getdocument";
+        $data['header_title'] = "Document";
         return view('student.readFile', $data);
     }
 
